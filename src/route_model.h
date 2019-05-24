@@ -7,6 +7,8 @@
 #include <iostream>
 
 using std::vector;
+using std::sqrt;
+using std::pow;
 
 class RouteModel : public Model {
 
@@ -22,6 +24,11 @@ class RouteModel : public Model {
         float g_value = 0.0;
         bool visited = false;
         vector<Node*> neighbors;
+
+        // Compare node other-x,y values with inherited Model::Node-x,y values
+        float distance(Node other_node) const {
+          return sqrt(pow(other_node.x - this->x, 2) + pow(other_node.y - this->y, 2));
+        }
       
       private:
         // Add private Node variables and methods here.

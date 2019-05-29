@@ -9,6 +9,7 @@
 using std::vector;
 using std::sqrt;
 using std::pow;
+using std::unordered_map;
 
 class RouteModel : public Model {
 

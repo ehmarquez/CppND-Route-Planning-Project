@@ -42,7 +42,8 @@ class RouteModel : public Model {
     vector<Node> path; // This variable will eventually store the path that is found by the A* search.
 
     // Getter
-    auto &SNodes() { return &m_Nodes; }
+    auto &SNodes() { return m_Nodes; }
+    auto &GetNodeToRoadMap() { return node_to_road; }
 
   private:
     // Add private RouteModel variables and methods here.

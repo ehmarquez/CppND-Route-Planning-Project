@@ -41,12 +41,8 @@ void RouteModel::CreateNodeToRoadHashmap() {
 }
 
 /* Loops through node indices to find closest unvisited node.
- * TODO: figure out the scope resolution of calling Node member functions...
- * Node is subclass of RouteModel, but we did not need to call RouteModel::Node
- * How does 'this' know which object it's referring to in this->distance? Is it
- * because of the function return type RouteModel::Node*
  * 
- * @param node_indices - 
+ * @param node_indices - vector of neighbor nodes to iterate
  * @return - pointer to closest unvisited neighbor node
  */
 RouteModel::Node* RouteModel::Node::FindNeighbor(vector<int> node_indices) {
@@ -61,4 +57,16 @@ RouteModel::Node* RouteModel::Node::FindNeighbor(vector<int> node_indices) {
     }
   }
   return closest_node;
+}
+
+/* Create a vector of neighbors for the current node
+ *
+ */
+void RouteModel::Node::FindNeighbors() {
+  for (auto &road : parent_model->node_to_road[this->index]) {
+    RouteModel::Node* new_neighbor = this->FindNeighbor(parent_model->Ways()[road->way].nodes);
+    if (new_neighbor) {
+      this->neighbors.emplace_back(new_neighbor);
+    }
+  }
 }

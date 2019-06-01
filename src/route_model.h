@@ -30,6 +30,8 @@ class RouteModel : public Model {
         float distance(Node other_node) const {
           return sqrt(pow(other_node.x - this->x, 2) + pow(other_node.y - this->y, 2));
         }
+
+        void FindNeighbors();
       
       private:
         // Add private Node variables and methods here.

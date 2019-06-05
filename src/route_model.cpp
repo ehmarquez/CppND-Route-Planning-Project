@@ -1,6 +1,8 @@
 #include "route_model.h"
 #include <iostream>
 
+using std::numeric_limits;
+
 RouteModel::RouteModel(const std::vector<std::byte> &xml) : Model(xml) {
   // Creating RouteModel Nodes
   int iter = 0;
@@ -71,4 +73,32 @@ void RouteModel::Node::FindNeighbors() {
       this->neighbors.emplace_back(new_neighbor);
     }
   }
+}
+
+/* Find closest node by comparing distance
+ *
+ */
+RouteModel::Node &RouteModel::FindClosestNode(float x, float y) {
+  RouteModel::Node input;
+  input.x = x;
+  input.y = y;
+
+  float min_dist = numeric_limits<float>::max();
+  float dist;
+  int closest_idx;
+
+  for (const Model::Road &road : Roads()) {
+    if (road.type != Model::Road::Type::Footway) {
+      for (int node_idx : Ways()[road.way].nodes) {
+        dist = input.distance(SNodes()[node_idx]);
+        if (dist < min_dist) {
+          closest_idx = node_idx;
+          min_dist = dist;
+        }
+      }
+    }
+  }
+
+  return SNodes()[closest_idx];
+
 }

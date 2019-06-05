@@ -31,6 +31,7 @@ class RouteModel : public Model {
           return sqrt(pow(other_node.x - this->x, 2) + pow(other_node.y - this->y, 2));
         }
 
+        // Add current node neighbors to RouteModel::Node neighbors
         void FindNeighbors();
       
       private:

@@ -46,10 +46,10 @@ void RouteModel::CreateNodeToRoadHashmap() {
  * @return - pointer to closest unvisited neighbor node
  */
 RouteModel::Node* RouteModel::Node::FindNeighbor(vector<int> node_indices) {
-  Node* closest_node = nullptr;
-  Node node;
+  RouteModel::Node* closest_node = nullptr;
+  RouteModel::Node node;
   for (auto node_index : node_indices) {
-    node = parent_model->SNodes()[node_index]; 
+    node = parent_model->SNodes()[node_index];
     if (this->distance(node) && !node.visited) {
       if (closest_node == nullptr || (this->distance(node) < this->distance(*closest_node))){
         closest_node = &parent_model->SNodes()[node_index];
@@ -59,13 +59,15 @@ RouteModel::Node* RouteModel::Node::FindNeighbor(vector<int> node_indices) {
   return closest_node;
 }
 
-/* Create a vector of neighbors for the current node
+/* Create a vector of neighbors for the current node and add to a
+ * vector<Node*> called neighbors 
  *
  */
 void RouteModel::Node::FindNeighbors() {
   for (auto &road : parent_model->node_to_road[this->index]) {
     RouteModel::Node* new_neighbor = this->FindNeighbor(parent_model->Ways()[road->way].nodes);
-    if (new_neighbor) {
+    // Add to vector if new_neighbor is not a null pointer
+    if (new_neighbor) { 
       this->neighbors.emplace_back(new_neighbor);
     }
   }

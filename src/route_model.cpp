@@ -75,7 +75,7 @@ void RouteModel::Node::FindNeighbors() {
   }
 }
 
-/* Find closest node by comparing distance
+/* Find closest node by comparing distance from given coordinates
  *
  */
 RouteModel::Node &RouteModel::FindClosestNode(float x, float y) {

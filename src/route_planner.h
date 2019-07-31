@@ -5,6 +5,7 @@
 #include <string>
 #include "route_model.h"
 
+using std::vector;
 
 class RoutePlanner {
   public:
@@ -13,12 +14,13 @@ class RoutePlanner {
     auto &GetDistance() const { return distance; }
 
   private:
-    // Add private variables or methods declarations here.
+    // Private variables
     RouteModel &m_Model;
     RouteModel::Node* start_node;          // nodes closest to start/end points
     RouteModel::Node* end_node;
     float distance;                       // from start_node -> end_node
 
+    // Private method declarations 
     // @return vector<RouteModel::Node>
     auto ConstructFinalPath(RouteModel::Node* current_node);
 };

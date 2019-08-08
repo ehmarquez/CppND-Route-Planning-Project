@@ -1,6 +1,8 @@
 #include "route_planner.h"
 #include <algorithm>
 
+using std::sort;
+
 RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, float end_x, float end_y): m_Model(model) {
   // Scale to percentage values
   start_x *= 0.01;
@@ -12,6 +14,7 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
   start_node = &model.FindClosestNode(start_x, start_y);
   end_node = &model.FindClosestNode(end_x, end_y);
 }
+
 
 // @return vector<RouteModel::Node>
 auto RoutePlanner::ConstructFinalPath(RouteModel::Node* current_node) {
@@ -32,7 +35,25 @@ auto RoutePlanner::ConstructFinalPath(RouteModel::Node* current_node) {
   return path_found;
 }
 
+
 void RoutePlanner::AStarSearch() {
   end_node->parent = start_node;
   m_Model.path = ConstructFinalPath(end_node);
+
+
+float RoutePlanner::CalculateHValue(RouteModel::Node *node) {
+  return node->distance(*end_node);
+}
+
+
+RouteModel::Node* RoutePlanner::NextNode() {
+  sort(open_list.begin(), open_list.end(), [](const auto &_1st, const auto &_2nd) {
+    return _1st->h_value + _1st->g_value < _2nd->h_value + _2nd->g_value;
+  });
+
+  RouteModel::Node* lowest_node = open_list.front();    //ptr to 1st element
+  open_list.erase(open_list.begin());                   //iter at 1st element
+  return lowest_node;
+}
+
 }

@@ -21,8 +21,11 @@ class RoutePlanner {
     RouteModel::Node* start_node;          // nodes closest to start/end points
     RouteModel::Node* end_node;
     float distance;                       // from start_node -> end_node
+    vector<RouteModel::Node> open_list;
 
     // Private method declarations 
     // @return vector<RouteModel::Node>
     auto ConstructFinalPath(RouteModel::Node* current_node);
+    float CalculateHValue(RouteModel::Node *node);
+    RouteModel::Node* NextNode();
 };

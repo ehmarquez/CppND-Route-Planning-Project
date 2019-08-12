@@ -47,13 +47,14 @@ float RoutePlanner::CalculateHValue(RouteModel::Node *node) {
 
 
 RouteModel::Node* RoutePlanner::NextNode() {
-  sort(open_list.begin(), open_list.end(), [](const auto &_1st, const auto &_2nd) {
-    return _1st->h_value + _1st->g_value < _2nd->h_value + _2nd->g_value;
+  // sort list of nodes in ascending order of sum of h_value & g_value
+  sort(open_list.begin(), open_list.end(),
+    [](const auto &_1st, const auto &_2nd) {
+      return _1st->h_value + _1st->g_value < _2nd->h_value + _2nd->g_value;
   });
 
+  // Return node with the lowest sum value
   RouteModel::Node* lowest_node = open_list.front();    //ptr to 1st element
   open_list.erase(open_list.begin());                   //iter at 1st element
   return lowest_node;
-}
-
 }

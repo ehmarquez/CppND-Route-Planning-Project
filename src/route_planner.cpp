@@ -39,7 +39,7 @@ auto RoutePlanner::ConstructFinalPath(RouteModel::Node* current_node) {
 void RoutePlanner::AStarSearch() {
   end_node->parent = start_node;
   m_Model.path = ConstructFinalPath(end_node);
-
+}
 
 float RoutePlanner::CalculateHValue(RouteModel::Node *node) {
   return node->distance(*end_node);

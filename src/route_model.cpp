@@ -6,6 +6,7 @@ using std::numeric_limits;
 RouteModel::RouteModel(const std::vector<std::byte> &xml) : Model(xml) {
   // Creating RouteModel Nodes
   int iter = 0;
+  //vector<Node> m_Nodes;
   for(Model::Node node : this->Nodes()) {
     m_Nodes.push_back(Node(iter, this, node));
     iter++;

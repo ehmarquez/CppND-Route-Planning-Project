@@ -26,6 +26,7 @@ class RoutePlanner {
     // Private method declarations 
     // @return vector<RouteModel::Node>
     auto ConstructFinalPath(RouteModel::Node* current_node);
-    float CalculateHValue(RouteModel::Node *node);
+    float CalculateHValue(RouteModel::Node* node);
     RouteModel::Node* NextNode();
+    void AddNeighbors(RouteModel::Node* node);
 };

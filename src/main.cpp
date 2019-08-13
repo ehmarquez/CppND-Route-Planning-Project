@@ -9,6 +9,8 @@
 #include "route_planner.h"
 
 using namespace std::experimental;
+using std::cin;
+using std::cout;
 
 static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
 {   
@@ -50,9 +52,21 @@ int main(int argc, const char **argv)
             osm_data = std::move(*data);
     }
     
-    // TODO: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
+    // Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below.
+
+    float start_x, start_y, end_x, end_y;
+    cout << "Please input target coordinates with (0,0) in the lower left"
+            "corner and (100,100) in the upper right corner." << "\n";
+    cout << "Enter starting x coordinate (0-100): ";
+    cin >> start_x;
+    cout << "Enter starting y coordinate (0-100): ";
+    cin >> start_y;
+    cout << "Enter final x coordinate (0-100): ";
+    cin >> end_x;
+    cout << "Enter final y coordinate (0-100): ";
+    cin >> end_y;
 
     // Build Model.
     RouteModel model{osm_data};

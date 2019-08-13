@@ -36,9 +36,22 @@ auto RoutePlanner::ConstructFinalPath(RouteModel::Node* current_node) {
 }
 
 
+// Find the path using A* search
 void RoutePlanner::AStarSearch() {
-  end_node->parent = start_node;
-  m_Model.path = ConstructFinalPath(end_node);
+  start_node->visited = true;
+  open_list.push_back(start_node);
+  RouteModel::Node* current_node = nullptr;
+
+  // Iterate through open list of nodes until end goal reached
+  while (open_list.size() > 0) {
+    // Explore next node based on heuristic values
+    current_node = NextNode();
+    if (current_node->distance(*end_node) == 0) {
+      m_Model.path = ConstructFinalPath(current_node);
+      return;
+    }
+      AddNeighbors(current_node);
+  }
 }
 
 float RoutePlanner::CalculateHValue(RouteModel::Node *node) {
@@ -57,4 +70,18 @@ RouteModel::Node* RoutePlanner::NextNode() {
   RouteModel::Node* lowest_node = open_list.front();    //ptr to 1st element
   open_list.erase(open_list.begin());                   //iter at 1st element
   return lowest_node;
+}
+
+
+void RoutePlanner::AddNeighbors(RouteModel::Node* node) {
+  node->FindNeighbors();
+  for (auto neighbor : node->neighbors) {
+    neighbor->parent = node;
+    neighbor->g_value = node->g_value + node->distance(*neighbor);
+    neighbor->h_value = CalculateHValue(neighbor);
+
+    // Finally, add neighbor node to open list of nodes to check
+    open_list.push_back(neighbor);
+    neighbor->visited = true;
+  }
 }
